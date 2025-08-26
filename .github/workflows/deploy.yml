@@ -55,6 +55,6 @@ jobs:
 
             # Run the new container from the new image
             docker run -d --restart always \
-              -p 80:80 \
+              -p 80:3000 \
               --name portfolio-ui \
               ghcr.io/${{ github.repository }}:latest
