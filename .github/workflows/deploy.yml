@@ -50,11 +50,11 @@ jobs:
             docker pull ghcr.io/${{ github.repository }}:latest
 
             # Stop and remove the old container if it exists
-            docker stop your-next-app-container || true
-            docker rm your-next-app-container || true
+            docker stop portfolio-ui || true
+            docker rm portfolio-ui || true
 
             # Run the new container from the new image
             docker run -d --restart always \
-              -p 3000:3000 \
-              --name your-next-app-container \
+              -p 80:80 \
+              --name portfolio-ui \
               ghcr.io/${{ github.repository }}:latest
