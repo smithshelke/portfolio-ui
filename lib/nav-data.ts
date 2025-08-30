@@ -30,18 +30,29 @@ export const data = {
     
     
     {
-      title: "Developer tools",
+      title: "Oncall",
+      url: "#",
+      items: [
+        { title: "Logs", url: `${baseUrl}/oncall/logs` },
+        { title: "Feature Flags", url: `${baseUrl}/oncall/feature-flags` },
+        { title: "Schedule", url: `${baseUrl}/oncall/schedule` },
+        { title: "Queries", url: `${baseUrl}/oncall/common-queries` },
+      ],
+    },
+    {
+      title: "Developer Tools",
       url: "#",
       items: [
         { title: "JSON Formatter", url: `${baseUrl}/developer-tools/json-formatter` },
         { title: "Epoch Converter", url: `${baseUrl}/developer-tools/epoch-converter` },
       ],
     },
+    
   {
       title: "Blogs",
       url: "#",
       items: [
-        { title: "Neovim", url: `${baseUrl}/blogs/neovim` },
+        { title: "Why I Use Neovim", url: `${baseUrl}/blogs/neovim` },
       ],
     },
   ],
