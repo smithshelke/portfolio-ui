@@ -4,65 +4,44 @@ export const baseUrl = "/dashboard"
 export const data = {
   navMain: [
     {
-      title: "Introduction",
+      title: "About Me",
       url: "#",
       items: [
         {
-          title: "About Me",
+          title: "My Story",
           url: `${baseUrl}/about-me`,
         },
         {
-          title: "Experiences",
+          title: "Work Experience",
           url: `${baseUrl}/experiences`,
         },
       ],
     },
     {
-      title: "Building Your Application",
+      title: "Task Management",
       url: "#",
       items: [
-        { title: "Routing", url: "#" },
-        { title: "Data Fetching", url: "#" },
-        { title: "Rendering", url: "#" },
-        { title: "Caching", url: "#" },
-        { title: "Styling", url: "#" },
-        { title: "Optimizing", url: "#" },
-        { title: "Configuring", url: "#" },
-        { title: "Testing", url: "#" },
-        { title: "Authentication", url: "#" },
-        { title: "Deploying", url: "#" },
-        { title: "Upgrading", url: "#" },
-        { title: "Examples", url: "#" },
+        { title: "Dashboard", url: `${baseUrl}/task-management` },
+        { title: "Task Board", url: `${baseUrl}/task-management/board` },
+        { title: "Calendar", url: `${baseUrl}/task-management/calendar` },
+        { title: "Notes", url: `${baseUrl}/task-management/notes` },
       ],
     },
+    
+    
     {
-      title: "API Reference",
+      title: "Developer tools",
       url: "#",
       items: [
-        { title: "Components", url: "#" },
-        { title: "File Conventions", url: "#" },
-        { title: "Functions", url: "#" },
-        { title: "next.config.js Options", url: "#" },
-        { title: "CLI", url: "#" },
-        { title: "Edge Runtime", url: "#" },
+        { title: "JSON Formatter", url: `${baseUrl}/developer-tools/json-formatter` },
+        { title: "Epoch Converter", url: `${baseUrl}/developer-tools/epoch-converter` },
       ],
     },
-    {
-      title: "Architecture",
+  {
+      title: "Blogs",
       url: "#",
       items: [
-        { title: "Accessibility", url: "#" },
-        { title: "Fast Refresh", url: "#" },
-        { title: "Next.js Compiler", url: "#" },
-        { title: "Supported Browsers", url: "#" },
-        { title: "Turbopack", url: "#" },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        { title: "Contribution Guide", url: "#" },
+        { title: "Neovim", url: `${baseUrl}/blogs/neovim` },
       ],
     },
   ],
