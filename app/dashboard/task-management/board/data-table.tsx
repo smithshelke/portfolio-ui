@@ -27,7 +27,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown } from "lucide-react"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
+import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -44,6 +45,7 @@ export function DataTable<TData, TValue>({
   )
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
   const table = useReactTable({
     data,
@@ -142,6 +144,30 @@ export function DataTable<TData, TValue>({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+          <DrawerTrigger asChild>
+            <Button variant="outline" className="ml-2">
+              <Plus className="h-4 w-4" />
+              Create Task
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Create New Task</DrawerTitle>
+              <DrawerDescription>Fill in the details for your new task.</DrawerDescription>
+            </DrawerHeader>
+            <div className="p-4">
+              {/* Task creation form will go here */}
+              <p>Task creation form goes here.</p>
+            </div>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </div>
       <div className="rounded-md border h-[calc(100vh-200px)] overflow-y-auto">
         <Table>
