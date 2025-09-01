@@ -37,6 +37,8 @@ function formatStatus(status: string) {
   }
 }
 
+const priorityOrder = ["low", "medium", "high"]
+
 export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "name",
@@ -57,6 +59,11 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "priority",
     header: "Priority",
+    sortingFn: (rowA, rowB, columnId) => {
+      const priorityA = rowA.getValue(columnId) as string
+      const priorityB = rowB.getValue(columnId) as string
+      return priorityOrder.indexOf(priorityA) - priorityOrder.indexOf(priorityB)
+    },
     cell: ({ row }) => {
       const priority = row.getValue("priority") as keyof typeof priorityMap
       return (
