@@ -26,8 +26,8 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ChevronLeft, ChevronRight, ListFilter } from "lucide-react"
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm mr-2"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -102,14 +102,48 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {column.columnDef.header as string}
                   </DropdownMenuCheckboxItem>
                 )
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        {/* New Sort Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon" className="ml-2">
+              <ArrowUpDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => table.getColumn("priority")?.toggleSorting(false)}>
+              Priority (Asc)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.getColumn("priority")?.toggleSorting(true)}>
+              Priority (Desc)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.getColumn("status")?.toggleSorting(false)}>
+              Status (Asc)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.getColumn("status")?.toggleSorting(true)}>
+              Status (Desc)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.getColumn("startedOn")?.toggleSorting(false)}>
+              Started On (Asc)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.getColumn("startedOn")?.toggleSorting(true)}>
+              Started On (Desc)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.getColumn("completedOn")?.toggleSorting(false)}>
+              Completed On (Asc)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.getColumn("completedOn")?.toggleSorting(true)}>
+              Completed On (Desc)
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <div className="rounded-md border h-[calc(100vh-200px)] overflow-y-auto">
+      <div className="rounded-md border h-[calc(100vh-220px)] md:h-[calc(100vh-200px)] overflow-y-auto">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-muted/50">
             {table.getHeaderGroups().map((headerGroup) => (
