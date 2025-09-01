@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
             <DrawerTrigger asChild>
               <Button variant="outline" className="ml-2">
                 <Plus className="h-4 w-4" />
-                Create Task
+                {!isMobile && "Create Task"}
               </Button>
             </DrawerTrigger>
             <DrawerContent className="min-h-[300px] p-2"><TaskForm /></DrawerContent>
@@ -165,7 +165,7 @@ export function DataTable<TData, TValue>({
             <DialogTrigger asChild>
               <Button variant="outline" className="ml-2">
                 <Plus className="h-4 w-4" />
-                Create Task
+                {!isMobile && "Create Task"}
               </Button>
             </DialogTrigger>
             <DialogContent className="min-h-[300px] p-2"><TaskForm /></DialogContent>
