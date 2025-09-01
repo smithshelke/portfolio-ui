@@ -33,6 +33,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, Dr
 import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { TaskForm } from "@/components/task-form"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -75,61 +76,6 @@ export function DataTable<TData, TValue>({
       },
     },
   })
-
-  const TaskFormContent = (
-    <div className="flex flex-col gap-4 h-full">
-      <DrawerHeader className="px-4">
-        <DrawerTitle>Create New Task</DrawerTitle>
-        <DrawerDescription>Fill in the details for your new task.</DrawerDescription>
-      </DrawerHeader>
-      <div className="flex-1 px-4 grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="taskName">Task Name</Label>
-          <Input id="taskName" placeholder="Enter task name" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="featureName">Feature Name</Label>
-          <Input id="featureName" placeholder="Enter feature name" />
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="grid gap-2">
-            <Label htmlFor="priority">Priority</Label>
-            <Select>
-              <SelectTrigger id="priority" className="w-full">
-                <SelectValue placeholder="Select priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="status">Status</Label>
-            <Select>
-              <SelectTrigger id="status" className="w-full">
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="todo">To Do</SelectItem>
-                <SelectItem value="in-progress">In Progress</SelectItem>
-                <SelectItem value="done">Done</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </div>
-      <DrawerFooter className="flex justify-end px-4">
-        <div className="flex flex-col space-y-2">
-          <Button className="flex-1">Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline" className="flex-1">Cancel</Button>
-          </DrawerClose>
-        </div>
-      </DrawerFooter>
-    </div>
-  )
 
   return (
     <div className="h-full flex flex-col">
@@ -212,7 +158,7 @@ export function DataTable<TData, TValue>({
                 Create Task
               </Button>
             </DrawerTrigger>
-            <DrawerContent className="min-h-[300px] p-2">{TaskFormContent}</DrawerContent>
+            <DrawerContent className="min-h-[300px] p-2"><TaskForm /></DrawerContent>
           </Drawer>
         ) : (
           <Dialog open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -222,7 +168,7 @@ export function DataTable<TData, TValue>({
                 Create Task
               </Button>
             </DialogTrigger>
-            <DialogContent className="min-h-[300px] p-2">{TaskFormContent}</DialogContent>
+            <DialogContent className="min-h-[300px] p-2"><TaskForm /></DialogContent>
           </Dialog>
         )}
       </div>
