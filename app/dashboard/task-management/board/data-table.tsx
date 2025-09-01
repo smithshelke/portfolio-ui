@@ -26,11 +26,14 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
 import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { TaskForm } from "@/components/task-form"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -73,18 +76,6 @@ export function DataTable<TData, TValue>({
       },
     },
   })
-
-  const TaskFormContent = (
-    <>
-      <DrawerHeader>
-        <DrawerTitle>Create New Task</DrawerTitle>
-        <DrawerDescription>Fill in the details for your new task.</DrawerDescription>
-      </DrawerHeader>
-      <div className="p-4">
-        {/* Task creation form will go here */}
-      </div>
-    </>
-  )
 
   return (
     <div className="h-full flex flex-col">
@@ -167,7 +158,7 @@ export function DataTable<TData, TValue>({
                 Create Task
               </Button>
             </DrawerTrigger>
-            <DrawerContent className="min-h-[300px]">{TaskFormContent}</DrawerContent>
+            <DrawerContent className="min-h-[300px] p-2"><TaskForm /></DrawerContent>
           </Drawer>
         ) : (
           <Dialog open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -177,7 +168,7 @@ export function DataTable<TData, TValue>({
                 Create Task
               </Button>
             </DialogTrigger>
-            <DialogContent className="min-h-[300px]">{TaskFormContent}</DialogContent>
+            <DialogContent className="min-h-[300px] p-2"><TaskForm /></DialogContent>
           </Dialog>
         )}
       </div>
