@@ -13,6 +13,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  RowData,
 } from "@tanstack/react-table"
 
 import {
@@ -31,7 +32,15 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { TaskForm } from "@/components/task-form"
+import { CreateTaskForm } from "@/components/create-task-form"
+
+import { EditTaskForm } from "@/components/edit-task-form"
+
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    openEditDialog: (task: TData) => void
+  }
+}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -49,6 +58,8 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
+  const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
+  const [selectedTask, setSelectedTask] = React.useState<TData | null>(null)
   const isMobile = useIsMobile()
 
   const table = useReactTable({
@@ -62,6 +73,12 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    meta: {
+      openEditDialog: (task: TData) => {
+        setSelectedTask(task)
+        setIsEditDialogOpen(true)
+      },
+    },
     state: {
       sorting,
       columnFilters,
@@ -95,9 +112,7 @@ export function DataTable<TData, TValue>({
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
+              .filter((column) => column.getCanHide() && column.id !== 'actions')
               .map((column) => {
                 return (
                   <DropdownMenuCheckboxItem
@@ -108,7 +123,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {flexRender(column.columnDef.header, column.getContext())}
+                    {column.columnDef.header as string}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -156,7 +171,7 @@ export function DataTable<TData, TValue>({
                 {!isMobile && "Create Task"}
               </Button>
             </DrawerTrigger>
-            <DrawerContent className="min-h-[300px] p-2"><TaskForm /></DrawerContent>
+            <DrawerContent className="min-h-[300px] p-2"><CreateTaskForm /></DrawerContent>
           </Drawer>
         ) : (
           <Dialog open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -166,10 +181,15 @@ export function DataTable<TData, TValue>({
                 {!isMobile && "Create Task"}
               </Button>
             </DialogTrigger>
-            <DialogContent className="min-h-[300px] p-2"><TaskForm /></DialogContent>
+            <DialogContent className="min-h-[300px] p-2"><CreateTaskForm /></DialogContent>
           </Dialog>
         )}
       </div>
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="min-h-[300px] p-2">
+          <EditTaskForm task={selectedTask} />
+        </DialogContent>
+      </Dialog>
       <div className="rounded-md border h-[calc(100vh-200px)] overflow-y-auto">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-muted/50">

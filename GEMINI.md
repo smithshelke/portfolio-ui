@@ -28,3 +28,9 @@ The following scripts are available in `package.json` to run and build the proje
 -   **Icons**: The project uses [`lucide-react`](https://lucide.dev/guide/packages/lucide-react) for icons.
 -   **Fonts**: The project uses the "Geist" font, which is loaded via `next/font`.
 -   **Linting**: The project is set up with ESLint for code quality. It is recommended to run `npm run lint` before committing changes.
+
+## Gemini Added Memories
+- Do not alter components added by the shadcn cli in the components folder
+- Do not make any changes to the base components provided by the shadcn library. If its really important to alter the base components ask for permission twice.
+- Do not use git commands without my persmission
+- Stop committing to git on your own. Do not stage/unstage on your own.

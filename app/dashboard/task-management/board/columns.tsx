@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, CheckCircle, XCircle, CircleDot, Github, Sparkles } from "lucide-react";
+import { MoreHorizontal, CheckCircle, XCircle, CircleDot, Github, Sparkles, Pencil } from "lucide-react";
 
 const priorityMap = {
   low: "bg-blue-50 border-blue-200 text-blue-700",
@@ -121,7 +121,7 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const task = row.original;
 
       return (
@@ -133,6 +133,10 @@ export const columns: ColumnDef<Task>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => table.options.meta?.openEditDialog(task)}>
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit Task
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => console.log(`Marking task ${task.id} as done`)}>
               <CheckCircle className="mr-2 h-4 w-4" />
               Mark as Done
