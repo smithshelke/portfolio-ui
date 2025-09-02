@@ -33,6 +33,7 @@ import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { CreateTaskForm } from "@/components/create-task-form"
+import { Task } from "./data"
 
 import { EditTaskForm } from "@/components/edit-task-form"
 
@@ -42,12 +43,12 @@ declare module '@tanstack/react-table' {
   }
 }
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends Task, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends Task, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -188,13 +189,13 @@ export function DataTable<TData, TValue>({
       {isMobile ? (
         <Drawer open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DrawerContent className="min-h-[300px] p-2">
-            <EditTaskForm task={selectedTask} />
+            {selectedTask && <EditTaskForm task={selectedTask as Task} />}
           </DrawerContent>
         </Drawer>
       ) : (
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="min-h-[300px] p-2">
-            <EditTaskForm task={selectedTask} />
+            {selectedTask && <EditTaskForm task={selectedTask as Task} />}
           </DialogContent>
         </Dialog>
       )}
