@@ -108,7 +108,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {flexRender(column.columnDef.header, { table })}
+                    {flexRender(column.columnDef.header, column.getContext())}
                   </DropdownMenuCheckboxItem>
                 )
               })}
