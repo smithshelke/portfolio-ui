@@ -185,11 +185,19 @@ export function DataTable<TData, TValue>({
           </Dialog>
         )}
       </div>
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="min-h-[300px] p-2">
-          <EditTaskForm task={selectedTask} />
-        </DialogContent>
-      </Dialog>
+      {isMobile ? (
+        <Drawer open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DrawerContent className="min-h-[300px] p-2">
+            <EditTaskForm task={selectedTask} />
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="min-h-[300px] p-2">
+            <EditTaskForm task={selectedTask} />
+          </DialogContent>
+        </Dialog>
+      )}
       <div className="rounded-md border h-[calc(100vh-200px)] overflow-y-auto">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-muted/50">
