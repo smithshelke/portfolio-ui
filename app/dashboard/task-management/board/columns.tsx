@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, CheckCircle, XCircle, CircleDot, Github, Sparkles, Pencil } from "lucide-react";
+import { MoreHorizontal, CheckCircle, XCircle, CircleDot, Github, Sparkles, Pencil, Trash } from "lucide-react";
 
 const priorityMap = {
   low: "bg-blue-50 border-blue-200 text-blue-700",
@@ -156,6 +156,10 @@ export const columns: ColumnDef<Task>[] = [
             <DropdownMenuItem onClick={() => console.log(`Attempting task ${task.id} with AI`)}>
               <Sparkles className="mr-2 h-4 w-4" />
               Attempt with AI
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => table.options.meta?.openDeleteDialog(task)}>
+              <Trash className="mr-2 h-4 w-4" />
+              Delete Task
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
