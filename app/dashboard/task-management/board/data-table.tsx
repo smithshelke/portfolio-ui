@@ -28,10 +28,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
 import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { CreateTaskForm } from "@/components/create-task-form"
 import { Task } from "./data"
 
@@ -40,6 +40,7 @@ import { EditTaskForm } from "@/components/edit-task-form"
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
     openEditDialog: (task: TData) => void
+    openDeleteDialog: (task: TData) => void
   }
 }
 
@@ -61,6 +62,8 @@ export function DataTable<TData extends Task, TValue>({
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
   const [selectedTask, setSelectedTask] = React.useState<TData | null>(null)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
+  const [taskToDelete, setTaskToDelete] = React.useState<TData | null>(null)
   const isMobile = useIsMobile()
 
   const table = useReactTable({
@@ -78,6 +81,10 @@ export function DataTable<TData extends Task, TValue>({
       openEditDialog: (task: TData) => {
         setSelectedTask(task)
         setIsEditDialogOpen(true)
+      },
+      openDeleteDialog: (task: TData) => {
+        setTaskToDelete(task)
+        setIsDeleteDialogOpen(true)
       },
     },
     state: {
@@ -196,6 +203,53 @@ export function DataTable<TData extends Task, TValue>({
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="min-h-[300px] p-2">
             {selectedTask && <EditTaskForm task={selectedTask as Task} />}
+          </DialogContent>
+        </Dialog>
+      )}
+      {isMobile ? (
+        <Drawer open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Are you sure absolutely sure?</DrawerTitle>
+              <DrawerDescription>
+                This action cannot be undone. This will permanently delete your
+                task and remove your data from our servers.
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={() => {
+                console.log(`Deleting task ${taskToDelete?.id}`)
+                setIsDeleteDialogOpen(false)
+              }}>
+                Delete
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. This will permanently delete your
+                task and remove your data from our servers.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={() => {
+                console.log(`Deleting task ${taskToDelete?.id}`)
+                setIsDeleteDialogOpen(false)
+              }}>
+                Delete
+              </Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       )}
