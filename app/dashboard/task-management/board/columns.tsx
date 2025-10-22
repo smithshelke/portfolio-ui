@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, CheckCircle, XCircle, CircleDot, Github, Sparkles, Pencil, Trash } from "lucide-react";
+import { updateTask } from "@/app/dashboard/task-management/board/actions";
+import { toast } from "sonner";
 
 const priorityMap = {
   low: "bg-blue-50 border-blue-200 text-blue-700",
@@ -53,15 +55,18 @@ export const columns: ColumnDef<Task>[] = [
     header: "Task Name",
   },
   {
-    accessorKey: "story",
-    header: "Feature",
+    accessorKey: "feature_name",
+    header: "Feature Name",
     cell: ({ row }) => {
-      const story: string = row.getValue("story");
-      const words = story.split(" ");
+      const featureName: string = row.getValue("feature_name");
+      if (!featureName) {
+        return "-";
+      }
+      const words = featureName.split(" ");
       if (words.length > 3) {
         return words.slice(0, 3).join(" ") + "...";
       }
-      return story;
+      return featureName;
     },
   },
   {
@@ -82,10 +87,10 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "startedOn",
-    header: "Started On",
+    accessorKey: "created_at",
+    header: "Created At",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("startedOn"));
+      const date = new Date(row.getValue("created_at"));
       return date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
@@ -94,12 +99,12 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "completedOn",
-    header: "Completed On",
+    accessorKey: "updated_at",
+    header: "Updated At",
     cell: ({ row }) => {
-      const completedOn = row.getValue("completedOn");
-      if (!completedOn) return "-";
-      const date = new Date(completedOn as string);
+      const updatedAt = row.getValue("updated_at");
+      if (!updatedAt) return "-";
+      const date = new Date(updatedAt as string);
       return date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
@@ -124,6 +129,22 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row, table }) => {
       const task = row.original;
 
+      const handleStatusUpdate = async (newStatus: string) => {
+        try {
+          await updateTask(task.id, {
+            name: task.name,
+            description: task.description,
+            feature_id: task.feature_id,
+            priority: task.priority,
+            status: newStatus,
+            git_data: {},
+          });
+          toast.success("Task successfully updated");
+        } catch {
+          toast.error("Task update failed");
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -137,15 +158,15 @@ export const columns: ColumnDef<Task>[] = [
               <Pencil className="mr-2 h-4 w-4" />
               Edit Task
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(`Marking task ${task.id} as done`)}>
+            <DropdownMenuItem onClick={() => handleStatusUpdate("done")}>
               <CheckCircle className="mr-2 h-4 w-4" />
               Mark as Done
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(`Marking task ${task.id} as canceled`)}>
+            <DropdownMenuItem onClick={() => handleStatusUpdate("canceled")}>
               <XCircle className="mr-2 h-4 w-4" />
               Mark as Canceled
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(`Marking task ${task.id} as in progress`)}>
+            <DropdownMenuItem onClick={() => handleStatusUpdate("in-progress")}>
               <CircleDot className="mr-2 h-4 w-4" />
               Mark as In Progress
             </DropdownMenuItem>
