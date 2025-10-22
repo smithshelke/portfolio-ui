@@ -9,7 +9,7 @@ interface TaskPayload {
   feature_id: string;
   priority: string;
   status: string;
-  git_data: {};
+  git_data: object;
 }
 
 export async function getTasks(): Promise<Task[]> {
@@ -29,7 +29,7 @@ export async function getTasks(): Promise<Task[]> {
       createdAt: task.created_at,
       updatedAt: task.updated_at,
       status: task.status,
-      description: task.description.string,
+      description: task.description,
     }));
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -52,7 +52,7 @@ export async function getFeatures(): Promise<{ id: string; name: string }[]> {
   }
 }
 
-export async function createTask(task: TaskPayload): Promise<any> {
+export async function createTask(task: TaskPayload): Promise<Task> {
   try {
     const res = await fetch("http://localhost:8080/tasks", {
       method: "POST",
@@ -67,6 +67,6 @@ export async function createTask(task: TaskPayload): Promise<any> {
     return await res.json();
   } catch (error) {
     console.error("Error creating task:", error);
-    return null;
+    throw error;
   }
 }

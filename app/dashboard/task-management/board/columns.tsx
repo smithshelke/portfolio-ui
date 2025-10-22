@@ -57,6 +57,9 @@ export const columns: ColumnDef<Task>[] = [
     header: "Feature Name",
     cell: ({ row }) => {
       const featureName: string = row.getValue("featureName");
+      if (!featureName) {
+        return "-";
+      }
       const words = featureName.split(" ");
       if (words.length > 3) {
         return words.slice(0, 3).join(" ") + "...";
