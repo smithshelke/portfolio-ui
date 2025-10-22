@@ -55,10 +55,10 @@ export const columns: ColumnDef<Task>[] = [
     header: "Task Name",
   },
   {
-    accessorKey: "featureName",
+    accessorKey: "feature_name",
     header: "Feature Name",
     cell: ({ row }) => {
-      const featureName: string = row.getValue("featureName");
+      const featureName: string = row.getValue("feature_name");
       if (!featureName) {
         return "-";
       }
@@ -87,10 +87,10 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "createdAt",
+    accessorKey: "created_at",
     header: "Created At",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("createdAt"));
+      const date = new Date(row.getValue("created_at"));
       return date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
@@ -99,10 +99,10 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: "updated_at",
     header: "Updated At",
     cell: ({ row }) => {
-      const updatedAt = row.getValue("updatedAt");
+      const updatedAt = row.getValue("updated_at");
       if (!updatedAt) return "-";
       const date = new Date(updatedAt as string);
       return date.toLocaleDateString("en-US", {

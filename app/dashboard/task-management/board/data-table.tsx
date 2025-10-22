@@ -31,7 +31,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog"
 import { CreateTaskForm } from "@/components/create-task-form"
 import { Task } from "./data"
 
@@ -222,6 +222,7 @@ export function DataTable<TData extends Task, TValue>({
       ) : (
         <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
           <DialogContent>
+            <DialogTitle>Delete Task</DialogTitle>
             {taskToDelete && (
               <DeleteTaskDialog
                 task={taskToDelete as Task}

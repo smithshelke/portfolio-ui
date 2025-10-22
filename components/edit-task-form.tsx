@@ -23,8 +23,8 @@ export function EditTaskForm({ task }: { task?: Task }) {
     async function loadFeatures() {
       const features = await getFeatures();
       setFeatures(features);
-      if (task?.featureName) {
-        const feature = features.find(f => f.name === task.featureName);
+      if (task?.feature_name) {
+        const feature = features.find(f => f.name === task.feature_name);
         if (feature) {
           setSelectedFeature(feature.id);
         }

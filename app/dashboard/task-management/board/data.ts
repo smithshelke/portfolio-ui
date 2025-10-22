@@ -2,9 +2,11 @@ export type Task = {
   id: string;
   name: string;
   priority: "low" | "medium" | "high";
-  featureName: string;
-  createdAt: string;
-  updatedAt: string;
+  feature_name: string;
+  feature_id: string;
+  created_at: string;
+  updated_at: string;
   status: "todo" | "in-progress" | "done" | "canceled";
   description: string;
+  git_data: any;
 };

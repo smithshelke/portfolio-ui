@@ -22,15 +22,17 @@ export async function getTasks(): Promise<Task[]> {
       throw new Error("Failed to fetch tasks");
     }
     const tasks = await res.json();
-    return tasks.map((task: Task) => ({
+    return tasks.map((task: any) => ({
       id: task.id,
       name: task.name,
       priority: task.priority,
-      featureName: task.feature_name,
-      createdAt: task.created_at,
-      updatedAt: task.updated_at,
+      feature_name: task.feature_name,
+      feature_id: task.feature_id,
+      created_at: task.created_at,
+      updated_at: task.updated_at,
       status: task.status,
       description: task.description,
+      git_data: task.git_data,
     }));
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -73,7 +75,10 @@ export async function createTask(task: TaskPayload): Promise<Task> {
   }
 }
 
-export async function updateTask(id: string, task: Omit<TaskPayload, "created_by">): Promise<Task> {
+export async function updateTask(
+  id: string,
+  task: Omit<TaskPayload, "created_by">,
+): Promise<Task> {
   try {
     const res = await fetch(`http://localhost:8080/tasks/${id}`, {
       method: "PUT",
