@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { Task } from "./data";
 
 interface TaskPayload {
@@ -21,7 +22,7 @@ export async function getTasks(): Promise<Task[]> {
       throw new Error("Failed to fetch tasks");
     }
     const tasks = await res.json();
-    return tasks.map((task: any) => ({
+    return tasks.map((task: Task) => ({
       id: task.id,
       name: task.name,
       priority: task.priority,
@@ -64,9 +65,30 @@ export async function createTask(task: TaskPayload): Promise<Task> {
     if (!res.ok) {
       throw new Error("Failed to create task");
     }
+    revalidatePath("/dashboard/task-management");
     return await res.json();
   } catch (error) {
     console.error("Error creating task:", error);
+    throw error;
+  }
+}
+
+export async function updateTask(id: string, task: Omit<TaskPayload, "created_by">): Promise<Task> {
+  try {
+    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+    });
+    if (!res.ok) {
+      throw new Error("Failed to update task");
+    }
+    revalidatePath("/dashboard/task-management");
+    return await res.json();
+  } catch (error) {
+    console.error("Error updating task:", error);
     throw error;
   }
 }

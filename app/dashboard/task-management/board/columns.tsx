@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, CheckCircle, XCircle, CircleDot, Github, Sparkles, Pencil, Trash } from "lucide-react";
+import { updateTask } from "@/app/dashboard/task-management/board/actions";
+import { toast } from "sonner";
 
 const priorityMap = {
   low: "bg-blue-50 border-blue-200 text-blue-700",
@@ -127,6 +129,22 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row, table }) => {
       const task = row.original;
 
+      const handleStatusUpdate = async (newStatus: string) => {
+        try {
+          await updateTask(task.id, {
+            name: task.name,
+            description: task.description,
+            feature_id: task.feature_id,
+            priority: task.priority,
+            status: newStatus,
+            git_data: {},
+          });
+          toast.success("Task successfully updated");
+        } catch {
+          toast.error("Task update failed");
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -140,15 +158,15 @@ export const columns: ColumnDef<Task>[] = [
               <Pencil className="mr-2 h-4 w-4" />
               Edit Task
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(`Marking task ${task.id} as done`)}>
+            <DropdownMenuItem onClick={() => handleStatusUpdate("done")}>
               <CheckCircle className="mr-2 h-4 w-4" />
               Mark as Done
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(`Marking task ${task.id} as canceled`)}>
+            <DropdownMenuItem onClick={() => handleStatusUpdate("canceled")}>
               <XCircle className="mr-2 h-4 w-4" />
               Mark as Canceled
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(`Marking task ${task.id} as in progress`)}>
+            <DropdownMenuItem onClick={() => handleStatusUpdate("in-progress")}>
               <CircleDot className="mr-2 h-4 w-4" />
               Mark as In Progress
             </DropdownMenuItem>

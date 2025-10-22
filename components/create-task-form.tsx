@@ -16,6 +16,7 @@ export function CreateTaskForm() {
   const [selectedFeature, setSelectedFeature] = React.useState<string | undefined>(undefined);
   const [priority, setPriority] = React.useState<string | undefined>(undefined);
   const [status, setStatus] = React.useState<string | undefined>(undefined);
+  const closeDrawerRef = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
     async function loadFeatures() {
@@ -41,7 +42,8 @@ export function CreateTaskForm() {
         git_data: {},
       });
       toast.success("Task successfully created");
-    } catch (error) {
+      closeDrawerRef.current?.click();
+    } catch {
       toast.error("Task creation failed");
     }
   };
@@ -106,7 +108,7 @@ export function CreateTaskForm() {
         <div className="flex flex-col space-y-2">
           <Button className="flex-1" onClick={handleSubmit}>Submit</Button>
           <DrawerClose asChild>
-            <Button variant="outline" className="flex-1">Cancel</Button>
+            <Button ref={closeDrawerRef} variant="outline" className="flex-1">Cancel</Button>
           </DrawerClose>
         </div>
       </DrawerFooter>
