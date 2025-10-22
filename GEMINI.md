@@ -34,3 +34,4 @@ The following scripts are available in `package.json` to run and build the proje
 - Do not make any changes to the base components provided by the shadcn library. If its really important to alter the base components ask for permission twice.
 - Do not use git commands without my persmission
 - Stop committing to git on your own. Do not stage/unstage on your own.
+- The backend for this project exists at /Users/smith.shelke@grofers.com/portfolio/portfolio-backend. Use this directory to refer backend code and contract

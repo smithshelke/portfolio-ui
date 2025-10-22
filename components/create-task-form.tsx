@@ -4,8 +4,21 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
+import { Combobox } from "@/components/ui/combobox"
+import { getFeatures } from "@/app/dashboard/task-management/board/actions"
 
 export function CreateTaskForm() {
+  const [features, setFeatures] = React.useState<{ id: string; name: string }[]>([]);
+  const [selectedFeature, setSelectedFeature] = React.useState<string | undefined>(undefined);
+
+  React.useEffect(() => {
+    async function loadFeatures() {
+      const features = await getFeatures();
+      setFeatures(features);
+    }
+    loadFeatures();
+  }, []);
+
   return (
     <div className="flex flex-col gap-4 h-full">
       <DrawerHeader className="px-4">
@@ -19,7 +32,15 @@ export function CreateTaskForm() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="featureName">Feature Name</Label>
-          <Input id="featureName" placeholder="Enter feature name" />
+          <Combobox
+            options={features.map(feature => ({ value: feature.id, label: feature.name }))}
+            value={selectedFeature}
+            onChange={setSelectedFeature}
+            placeholder="Select a feature"
+            searchPlaceholder="Search features..."
+            noResultsMessage="No features found."
+            className="font-normal"
+          />
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="grid gap-2">

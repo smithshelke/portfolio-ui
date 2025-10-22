@@ -1,6 +1,6 @@
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
-import { getTasks } from "./data"
+import { getTasks } from "./actions"
 
 export default async function TaskBoardPage() {
   const data = await getTasks()

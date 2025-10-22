@@ -53,15 +53,15 @@ export const columns: ColumnDef<Task>[] = [
     header: "Task Name",
   },
   {
-    accessorKey: "story",
-    header: "Feature",
+    accessorKey: "featureName",
+    header: "Feature Name",
     cell: ({ row }) => {
-      const story: string = row.getValue("story");
-      const words = story.split(" ");
+      const featureName: string = row.getValue("featureName");
+      const words = featureName.split(" ");
       if (words.length > 3) {
         return words.slice(0, 3).join(" ") + "...";
       }
-      return story;
+      return featureName;
     },
   },
   {
@@ -82,10 +82,10 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "startedOn",
-    header: "Started On",
+    accessorKey: "createdAt",
+    header: "Created At",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("startedOn"));
+      const date = new Date(row.getValue("createdAt"));
       return date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
@@ -94,12 +94,12 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "completedOn",
-    header: "Completed On",
+    accessorKey: "updatedAt",
+    header: "Updated At",
     cell: ({ row }) => {
-      const completedOn = row.getValue("completedOn");
-      if (!completedOn) return "-";
-      const date = new Date(completedOn as string);
+      const updatedAt = row.getValue("updatedAt");
+      if (!updatedAt) return "-";
+      const date = new Date(updatedAt as string);
       return date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",

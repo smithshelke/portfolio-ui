@@ -5,8 +5,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { Task } from "@/app/dashboard/task-management/board/data"
+import { Combobox } from "./ui/combobox"
+import { getFeatures } from "@/app/dashboard/task-management/board/actions"
 
 export function EditTaskForm({ task }: { task?: Task }) {
+  const [features, setFeatures] = React.useState<{ id: string; name: string }[]>([]);
+  const [selectedFeature, setSelectedFeature] = React.useState<string | undefined>(undefined);
+
+  React.useEffect(() => {
+    async function loadFeatures() {
+      const features = await getFeatures();
+      setFeatures(features);
+      if (task?.featureName) {
+        const feature = features.find(f => f.name === task.featureName);
+        if (feature) {
+          setSelectedFeature(feature.id);
+        }
+      }
+    }
+    loadFeatures();
+  }, [task]);
+
   return (
     <div className="flex flex-col gap-4 h-full">
       <DrawerHeader className="px-4">
@@ -20,7 +39,15 @@ export function EditTaskForm({ task }: { task?: Task }) {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="featureName">Feature Name</Label>
-          <Input id="featureName" placeholder="Enter feature name" defaultValue={task?.story} />
+          <Combobox
+            options={features.map(feature => ({ value: feature.id, label: feature.name }))}
+            value={selectedFeature}
+            onChange={setSelectedFeature}
+            placeholder="Select a feature"
+            searchPlaceholder="Search features..."
+            noResultsMessage="No features found."
+            className="font-normal"
+          />
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="grid gap-2">
