@@ -28,14 +28,15 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { CreateTaskForm } from "@/components/create-task-form"
 import { Task } from "./data"
 
 import { EditTaskForm } from "@/components/edit-task-form"
+import { DeleteTaskDialog } from "@/components/delete-task-dialog"
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -209,47 +210,25 @@ export function DataTable<TData extends Task, TValue>({
       {isMobile ? (
         <Drawer open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
           <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Are you sure absolutely sure?</DrawerTitle>
-              <DrawerDescription>
-                This action cannot be undone. This will permanently delete your
-                task and remove your data from our servers.
-              </DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter>
-              <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button variant="destructive" onClick={() => {
-                console.log(`Deleting task ${taskToDelete?.id}`)
-                setIsDeleteDialogOpen(false)
-              }}>
-                Delete
-              </Button>
-            </DrawerFooter>
+            {taskToDelete && (
+              <DeleteTaskDialog
+                task={taskToDelete as Task}
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+              />
+            )}
           </DrawerContent>
         </Drawer>
       ) : (
         <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
           <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-              <DialogDescription>
-                This action cannot be undone. This will permanently delete your
-                task and remove your data from our servers.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button variant="destructive" onClick={() => {
-                console.log(`Deleting task ${taskToDelete?.id}`)
-                setIsDeleteDialogOpen(false)
-              }}>
-                Delete
-              </Button>
-            </DialogFooter>
+            {taskToDelete && (
+              <DeleteTaskDialog
+                task={taskToDelete as Task}
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+              />
+            )}
           </DialogContent>
         </Dialog>
       )}

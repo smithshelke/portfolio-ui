@@ -92,3 +92,18 @@ export async function updateTask(id: string, task: Omit<TaskPayload, "created_by
     throw error;
   }
 }
+
+export async function deleteTask(id: string): Promise<void> {
+  try {
+    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error("Failed to delete task");
+    }
+    revalidatePath("/dashboard/task-management");
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    throw error;
+  }
+}
