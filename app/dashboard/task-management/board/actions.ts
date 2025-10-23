@@ -110,3 +110,30 @@ export async function deleteTask(id: string): Promise<void> {
     throw error;
   }
 }
+
+interface FeaturePayload {
+  name: string;
+  description: string;
+  created_by: string;
+  priority: string;
+  status: string;
+}
+
+export async function createFeature(feature: FeaturePayload): Promise<void> {
+  try {
+    const res = await fetch("http://localhost:8080/features", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(feature),
+    });
+    if (!res.ok) {
+      throw new Error("Failed to create feature");
+    }
+    revalidatePath("/dashboard/task-management");
+  } catch (error) {
+    console.error("Error creating feature:", error);
+    throw error;
+  }
+}

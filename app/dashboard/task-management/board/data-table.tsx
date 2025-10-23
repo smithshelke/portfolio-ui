@@ -32,6 +32,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { ChevronLeft, ChevronRight, ListFilter, ArrowUpDown, Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog"
+import { CreateFeatureForm } from "@/components/create-feature-form";
 import { CreateTaskForm } from "@/components/create-task-form"
 import { Task } from "./data"
 
@@ -61,6 +62,7 @@ export function DataTable<TData extends Task, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
+  const [isFeatureDrawerOpen, setIsFeatureDrawerOpen] = React.useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
   const [selectedTask, setSelectedTask] = React.useState<TData | null>(null)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
@@ -191,6 +193,27 @@ export function DataTable<TData extends Task, TValue>({
               </Button>
             </DialogTrigger>
             <DialogContent className="min-h-[300px] p-2"><CreateTaskForm /></DialogContent>
+          </Dialog>
+        )}
+        {isMobile ? (
+          <Drawer open={isFeatureDrawerOpen} onOpenChange={setIsFeatureDrawerOpen}>
+            <DrawerTrigger asChild>
+              <Button variant="outline" className="ml-2">
+                <Plus className="h-4 w-4" />
+                {!isMobile && "Create Feature"}
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent className="min-h-[300px] p-2"><CreateFeatureForm /></DrawerContent>
+          </Drawer>
+        ) : (
+          <Dialog open={isFeatureDrawerOpen} onOpenChange={setIsFeatureDrawerOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="ml-2">
+                <Plus className="h-4 w-4" />
+                {!isMobile && "Create Feature"}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="min-h-[300px] p-2"><CreateFeatureForm /></DialogContent>
           </Dialog>
         )}
       </div>
