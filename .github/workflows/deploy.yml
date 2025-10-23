@@ -55,9 +55,13 @@ jobs:
             docker stop portfolio-ui || true
             docker rm portfolio-ui || true
 
+            # Create a custom network if it doesn't exist
+            docker network create portfolio-network || true
+
             # Run the new container from the new image
             docker run -d --restart always \
               -p 80:3000 \
               --name portfolio-ui \
+              --network portfolio-network \
               -e NEXT_PUBLIC_BACKEND_HOST=http://portfolio-backend \
               ghcr.io/${{ github.repository }}:latest
