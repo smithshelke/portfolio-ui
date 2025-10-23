@@ -22,7 +22,7 @@ export async function getTasks(): Promise<Task[]> {
       throw new Error("Failed to fetch tasks");
     }
     const tasks = await res.json();
-    return tasks.map((task: any) => ({
+    return tasks.map((task: Task) => ({
       id: task.id,
       name: task.name,
       priority: task.priority,

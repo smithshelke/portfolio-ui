@@ -8,5 +8,5 @@ export type Task = {
   updated_at: string;
   status: "todo" | "in-progress" | "done" | "canceled";
   description: string;
-  git_data: any;
+  git_data: any; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 };
