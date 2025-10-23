@@ -35,7 +35,7 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}:latest # Tags the image with your repo name
           build-args: |
-            NEXT_PUBLIC_BACKEND_HOST=http://portfolio-backend
+            NEXT_PUBLIC_BACKEND_HOST=http://portfolio-backend:8080
 
       # 4. Deploy to Hetzner server via SSH
       - name: Deploy to Server
@@ -63,5 +63,5 @@ jobs:
               -p 80:3000 \
               --name portfolio-ui \
               --network portfolio-network \
-              -e NEXT_PUBLIC_BACKEND_HOST=http://portfolio-backend \
+              -e NEXT_PUBLIC_BACKEND_HOST=http://portfolio-backend:8080 \
               ghcr.io/${{ github.repository }}:latest
