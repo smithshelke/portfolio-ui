@@ -34,6 +34,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}:latest # Tags the image with your repo name
+          build-args: |
+            NEXT_PUBLIC_BACKEND_HOST=http://portfolio-backend
 
       # 4. Deploy to Hetzner server via SSH
       - name: Deploy to Server
@@ -57,4 +59,5 @@ jobs:
             docker run -d --restart always \
               -p 80:3000 \
               --name portfolio-ui \
+              -e NEXT_PUBLIC_BACKEND_HOST=http://portfolio-backend \
               ghcr.io/${{ github.repository }}:latest

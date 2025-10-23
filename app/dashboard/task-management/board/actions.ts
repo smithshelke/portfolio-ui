@@ -1,6 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+
+const BACKEND_HOST = process.env.NEXT_PUBLIC_BACKEND_HOST || "http://localhost:8080";
 import { Task } from "./data";
 
 interface TaskPayload {
@@ -14,7 +16,7 @@ interface TaskPayload {
 
 export async function getTasks(): Promise<Task[]> {
   try {
-    const res = await fetch("http://localhost:8080/tasks", {
+    const res = await fetch(`${BACKEND_HOST}/tasks`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -40,7 +42,7 @@ export async function getTasks(): Promise<Task[]> {
 
 export async function getFeatures(): Promise<{ id: string; name: string }[]> {
   try {
-    const res = await fetch("http://localhost:8080/features", {
+    const res = await fetch(`${BACKEND_HOST}/features`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -55,7 +57,7 @@ export async function getFeatures(): Promise<{ id: string; name: string }[]> {
 
 export async function createTask(task: TaskPayload): Promise<Task> {
   try {
-    const res = await fetch("http://localhost:8080/tasks", {
+    const res = await fetch(`${BACKEND_HOST}/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -78,7 +80,7 @@ export async function updateTask(
   task: Omit<TaskPayload, "created_by">,
 ): Promise<Task> {
   try {
-    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+    const res = await fetch(`${BACKEND_HOST}/tasks/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +100,7 @@ export async function updateTask(
 
 export async function deleteTask(id: string): Promise<void> {
   try {
-    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+    const res = await fetch(`${BACKEND_HOST}/tasks/${id}`, {
       method: "DELETE",
     });
     if (!res.ok) {
@@ -121,7 +123,7 @@ interface FeaturePayload {
 
 export async function createFeature(feature: FeaturePayload): Promise<void> {
   try {
-    const res = await fetch("http://localhost:8080/features", {
+    const res = await fetch(`${BACKEND_HOST}/features`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
