@@ -39,7 +39,6 @@ export function CreateTaskForm() {
         feature_id: selectedFeature,
         priority,
         status,
-        git_data: {},
       });
       toast.success("Task successfully created");
       closeDrawerRef.current?.click();

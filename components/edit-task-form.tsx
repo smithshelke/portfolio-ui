@@ -45,7 +45,6 @@ export function EditTaskForm({ task }: { task?: Task }) {
         feature_id: selectedFeature,
         priority,
         status,
-        git_data: {},
       });
       toast.success("Task successfully updated");
       closeDrawerRef.current?.click();

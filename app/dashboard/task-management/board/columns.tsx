@@ -137,7 +137,6 @@ export const columns: ColumnDef<Task>[] = [
             feature_id: task.feature_id,
             priority: task.priority,
             status: newStatus,
-            git_data: {},
           });
           toast.success("Task successfully updated");
         } catch {
