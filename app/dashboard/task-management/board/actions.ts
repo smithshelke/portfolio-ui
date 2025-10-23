@@ -10,7 +10,6 @@ interface TaskPayload {
   feature_id: string;
   priority: string;
   status: string;
-  git_data: object;
 }
 
 export async function getTasks(): Promise<Task[]> {
@@ -32,7 +31,6 @@ export async function getTasks(): Promise<Task[]> {
       updated_at: task.updated_at,
       status: task.status,
       description: task.description,
-      git_data: task.git_data,
     }));
   } catch (error) {
     console.error("Error fetching tasks:", error);
